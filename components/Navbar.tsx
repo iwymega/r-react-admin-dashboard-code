@@ -1,11 +1,19 @@
+// components/Navbar.tsx
 "use client";
 
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import Avvvatars from "avvvatars-react";
 import { MenuIcon, ShieldCheckIcon, XIcon } from "lucide-react";
+import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
+
+import { Session } from "next-auth";
+
+type Props = {
+  user: Session["user"];
+};
 
 const navigation = [
   { name: "Users", href: "/" },
@@ -16,7 +24,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar() {
+export default function Navbar({ user }: Props) {
   const pathname = usePathname();
 
   return (
@@ -87,6 +95,7 @@ export default function Navbar() {
                                 active ? "bg-gray-100" : "",
                                 "flex w-full px-4 py-2 text-sm text-gray-700"
                               )}
+                              onClick={() => signIn("github")}
                             >
                               Sign in
                             </button>
